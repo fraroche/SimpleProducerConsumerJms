@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions targetNamespace="http://ws.dsn.si2m.fr" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:MonSchema="urn:v1_0_0:schema:MonSchema:dsn:si2m:fr" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:tns="http://ws.dsn.si2m.fr" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ack="urn:v1_0_2:schema:ack:fwk:si2m:fr" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/">
+  <types>
+    <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://ws.dsn.si2m.fr">
+			<xs:import namespace="urn:v1_0_0:schema:MonSchema:dsn:si2m:fr" schemaLocation="TestSoapOverJms?xsd=MonSchema_v1.0.0.xsd"/>
+			<xs:import namespace="urn:v1_0_2:schema:ack:fwk:si2m:fr" schemaLocation="TestSoapOverJms?xsd=ack_v1.0.2.xsd"/>
+			<xs:element name="setMe" type="MonSchema:nomPrenomType"/>
+			<xs:element name="InOnlyOverJmsFault" type="ack:ackType"/>
+		</xs:schema>
+  </types>
+  <message name="InOnlyOverJmsRequest">
+    <part name="parameters" element="tns:setMe">
+    </part>
+  </message>
+  <message name="InOnlyOverJmsFaultMsg">
+    <part name="parameters" element="tns:InOnlyOverJmsFault">
+    </part>
+  </message>
+  <portType name="TestSoapOverJmsPortType">
+    <operation name="InOnlyOverJms">
+      <input message="tns:InOnlyOverJmsRequest">
+    </input>
+      <fault name="InOnlyOverJmsFault" message="tns:InOnlyOverJmsFaultMsg">
+    </fault>
+    </operation>
+  </portType>
+  <binding name="TestSoapOverJmsSoap12Binding" type="tns:TestSoapOverJmsPortType">
+    <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="InOnlyOverJms">
+      <soap12:operation soapAction="http://ws.dsn.si2m.fr/InOnlyOverJms" style="document"/>
+      <input>
+        <soap12:body use="literal"/>
+      </input>
+      <output>
+        <soap12:body use="literal"/>
+      </output>
+      <fault name="InOnlyOverJmsFault">
+        <soap12:fault name="InOnlyOverJmsFault" use="literal"/>
+      </fault>
+    </operation>
+  </binding>
+  <binding name="TestSoapOverJmsSoap11Binding" type="tns:TestSoapOverJmsPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="InOnlyOverJms">
+      <soap:operation soapAction="http://ws.dsn.si2m.fr/InOnlyOverJms" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="InOnlyOverJmsFault">
+        <soap:fault name="InOnlyOverJmsFault" use="literal"/>
+      </fault>
+    </operation>
+  </binding>
+  <service name="TestSoapOverJms">
+    <port name="TestSoapOverJms_1.0-SNAPSHOT_Soap11" binding="tns:TestSoapOverJmsSoap11Binding">
+      <soap:address/>
+    </port>
+    <port name="TestSoapOverJms_1.0-SNAPSHOT_Soap12" binding="tns:TestSoapOverJmsSoap12Binding">
+      <soap12:address/>
+    </port>
+  </service>
+</definitions>
